@@ -1,65 +1,56 @@
 package org.skypro.questions_exam.model.service;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.skypro.questions_exam.model.Question;
 
-
 import java.util.Collection;
-import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 class JavaQuestionServiceTest {
-    @Mock
-    private Random randomMock;
-    @InjectMocks
-    private JavaQuestionService javaQuestionService;
+    private final QuestionService out = new JavaQuestionService();
+
+    private static final Question QUESTION_1 = new Question("Q1", "A1");
+    private static final Question QUESTION_2 = new Question("Q2", "A2");
+    private static final Question QUESTION_3 = new Question("Q3", "A3");
 
     @BeforeEach
-    void setUp() {
-        javaQuestionService.clearQuestions();
+    public void beforeEach() {
+        out.add(QUESTION_1);
+        out.add(QUESTION_2);
+        out.add(QUESTION_3);
     }
 
     @Test
     void add_shouldAddUniqueQuestion(){
         String questionText = "Что такое класс?";
         String answerText = "Проект создания объектов";
-        Question newQuestion = javaQuestionService.add(questionText, answerText);
+        Question newQuestion = out.add(questionText, answerText);
+
         assertNotNull(newQuestion);
-        Collection<Question> allQuestions = javaQuestionService.getAllQuestion();
+        Collection<Question> allQuestions = out.getAll();
         assertTrue(allQuestions.contains(newQuestion));
+        assertEquals(4, allQuestions.size());
     }
+
     @Test
     void add_shouldThrowExceptionForDuplicateQuestion(){
-        String questionText = "Что такое класс?";
-        String answerText = "Проект создания объектов";
-        javaQuestionService.add(questionText, answerText);
+        String questionText = QUESTION_1.getQuestion();
+        String answerText = QUESTION_1.getAnswer();
+
         assertThrows(IllegalArgumentException.class, () -> {
-            javaQuestionService.add(questionText, answerText);
+            out.add(questionText, answerText);
         });
+        assertEquals(3, out.getAll().size());
     }
+
     @Test
     void getRandomQuestion_shouldReturnAnyOfAddedQuestions(){
-        Question q1 = javaQuestionService.add("Q1", "A1");
-        Question q2 = javaQuestionService.add("Q2", "A2");
-        Question q3 = javaQuestionService.add("Q3", "A3");
+        Question randomQuestion = out.getRandomQuestion();
 
-        when(randomMock.nextInt(3)).thenReturn(1);
-
-        Question randomQuestion = javaQuestionService.getRandomQuestion();
-
-        List<Question> addedQuestions = List.of(q1, q2, q3);
-        assertTrue(addedQuestions.contains(randomQuestion));
+        assertNotNull(randomQuestion);
+        assertTrue(out.getAll().contains(randomQuestion));
     }
 
-
 }
+

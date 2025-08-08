@@ -18,8 +18,8 @@ public class ExaminerServiceImpl implements ExaminerService {
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        if (amount > questionService.getAllQuestion().size()) {
-            throw new NotEnoughQuestionsException("Запрошено " + amount + " вопросов, но в наличии только " + questionService.getAllQuestion().size() + ".");
+        if (amount > questionService.getAll().size()) {
+            throw new NotEnoughQuestionsException("Запрошено " + amount + " вопросов, но в наличии только " + questionService.getAll().size() + ".");
         }
 
         Set<Question> examQuestions = new HashSet<>();

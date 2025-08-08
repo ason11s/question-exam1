@@ -27,8 +27,8 @@ public class JavaQuestionController {
         return javaQuestionService.remove(questionToRemove);
     }
     @GetMapping
-    public Collection<Question> getAllQuestion(){
-        return javaQuestionService.getAllQuestion();
+    public Collection<Question> getAll(){
+        return javaQuestionService.getAll();
     }
 
 }

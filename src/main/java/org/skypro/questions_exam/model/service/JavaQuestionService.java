@@ -12,9 +12,6 @@ public class JavaQuestionService implements QuestionService {
     private final Random random = new Random();
 
     public JavaQuestionService() {
-        add("Что такое JVM?", "Java Virtual Machine - это виртуальная машина, которая выполняет Java-байткод.");
-        add("Чем абстрактный класс отличается от интерфейса?", "Абстрактный класс может иметь реализованные методы и поля, интерфейс - только абстрактные методы (до Java 8) и константы.");
-
     }
 
     @Override
@@ -52,7 +49,7 @@ public class JavaQuestionService implements QuestionService {
     }
 
     @Override
-    public Collection<Question> getAllQuestion() {
+    public Collection<Question> getAll() {
         return Collections.unmodifiableList(questions);
     }
 
